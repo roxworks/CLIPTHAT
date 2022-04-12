@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@amplitude/node": "^1.10.0",
     "@heroicons/react": "^1.0.6",
     "axios": "^0.26.1",
     "next": "12.1.4",

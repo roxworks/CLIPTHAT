@@ -2,6 +2,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import axios from 'axios'
 import { getSession } from "next-auth/react"
+import {init} from '@amplitude/node';
+const ampClient = init('89e981520ef6f51935d9ada1c05587ee');
 
 type Data = {
     name: string
@@ -41,6 +43,13 @@ export default async function handler(
     console.log('Clip response: ', clipBlob?.data);
     let clipURL = clipBlob?.data?.data?.[0]?.edit_url;
     console.log('Clip URL: ' + clipURL);
+    ampClient.logEvent({
+        'event_type': 'clipthat_clip_made', 
+        user_id: channelName || 'No Channel Found',
+        event_properties: {
+            url: clipURL
+        }
+    });
 
     res.status(200).json({ name: 'clip response', url: clipURL } as Data);
 }
