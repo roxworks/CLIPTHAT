@@ -19,7 +19,9 @@ const Dictaphone = ({ setClipsMade, clipsMade, activationPhrase, setActivationPh
       //load from local storage
       let tempClipsMade = localStorage.getItem('clipsMade');
       if (tempClipsMade) {
-        setClipsMade(JSON.parse(tempClipsMade));
+        let tempClipsMadeArray = JSON.parse(tempClipsMade);
+        // cut off to last 20
+        setClipsMade(tempClipsMadeArray.slice(0, 20));
       }
     }
   });
