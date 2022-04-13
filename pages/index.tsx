@@ -54,7 +54,8 @@ const Home: NextPage = () => {
           <div className="flex justify-center items-center h-full">
             <div className="text-white">
               <h2 className="font-semibold text-4xl mb-4 uppercase" >{activationPhrase}!</h2>
-              <h4 className="font-semibold text-xl mb-1">Just say &ldquo;{activationPhrase}&rdquo; to make a live clip on Twitch.<br /> Clips will show up on the bar on the left.</h4>
+              <h4 className="font-semibold text-xl mb-1 hidden md:block">Just say &ldquo;{activationPhrase}&rdquo; to make a live clip on Twitch.<br /> Clips will show up on the bar on the left.</h4>
+              <h4 className="font-semibold text-xl mb-1 md:hidden">Just say &ldquo;{activationPhrase}&rdquo; to make a live clip on Twitch.<br /> Clips will show up in the section below.</h4>
               <h6 className="font-semibold text-sm mb-6 italic">(Supported only on Chrome)</h6>
               <div
                 className={"inline-block px-7 py-3 mb-1 border-2 border-gray-200 text-gray-200 font-medium text-sm leading-snug uppercase rounded focus:outline-none focus:ring-0 transition duration-150 ease-in-out" + (session ? "" : " hover:bg-gray-800 cursor-pointer")}
