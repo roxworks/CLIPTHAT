@@ -28,7 +28,7 @@ const Home: NextPage = () => {
         <ul className="relative">
           <li key={'clipbot.tv'} className="relative">
             <a href='https://clipbot.tv?utm_source=clipthat' target='_blank' rel='noreferrer noopener'>
-            <div  className='text-lg flex-col text-center py-4 px-6 w-full text-blue-300 text-ellipsis rounded bg-gray-800 hover:text-gray-900 hover:bg-gray-400 mt-2 p-2 transition duration-300 ease-in-out' >
+            <div  className='text-lg flex-col text-center py-4 px-6 w-full text-blue-300 text-ellipsis bg-gray-800 hover:text-gray-900 hover:bg-gray-400 mt-2 p-2 transition duration-300 ease-in-out' >
             <Image alt='Clipbot.tv logo' className='m-auto mb-1' height='45px' width='128px' src='/clipbot-logo.png' /><p className='w-full'>Want to automatically post your clips to Tiktok and Youtube? </p>
             </div>
             </a>
