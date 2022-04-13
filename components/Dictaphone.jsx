@@ -15,6 +15,16 @@ const Dictaphone = ({ setClipsMade, clipsMade, activationPhrase, setActivationPh
   } = useSpeechRecognition();
 
   useEffect(() => {
+    if (clipsMade.length == 0) {
+      //load from local storage
+      let tempClipsMade = localStorage.getItem('clipsMade');
+      if (tempClipsMade) {
+        setClipsMade(JSON.parse(tempClipsMade));
+      }
+    }
+  });
+
+  useEffect(() => {
     if (transcript.toLowerCase().includes(activationPhrase.toLowerCase())) {
       resetTranscript();
       fetch('/api/clip?').then(res => res.json()).then(res => {
@@ -28,7 +38,10 @@ const Dictaphone = ({ setClipsMade, clipsMade, activationPhrase, setActivationPh
           return;
         }
         console.log(res.url);
-        setClipsMade(clipsMade.concat({url: res.url, name: new Date().toLocaleTimeString(), src: res.src}));
+        let newClipsMade = clipsMade.concat({url: res.url, name: new Date().toLocaleTimeString(), src: res.src});
+        setClipsMade(newClipsMade);
+        localStorage.setItem('clipsMade', JSON.stringify(newClipsMade));
+
         Swal.fire({
           title: 'Clip saved!',
           text: 'You can find it in your clips menu on the left',

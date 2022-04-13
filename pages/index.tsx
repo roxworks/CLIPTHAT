@@ -6,7 +6,7 @@ import styles from '../styles/Home.module.css'
 //dynamic import Dictaphone
 const Dictaphone = dynamic(() => import('../components/Dictaphone'), { ssr: false })
 import { useSession, signIn, signOut } from "next-auth/react"
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PencilIcon } from '@heroicons/react/solid'
 import { EyeIcon } from '@heroicons/react/solid'
 
