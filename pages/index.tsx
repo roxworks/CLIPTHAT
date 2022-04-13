@@ -33,13 +33,14 @@ const Home: NextPage = () => {
             </div>
             </a>
           </li>
-          {clipsMade.slice().reverse().map(({ url, name }, index) => (<li key={url} className="relative">
+          {clipsMade.slice().reverse().map(({ url, name }, index) => (<li key={url} className="relative h-24">
             <div className='flex justify-between items-center text-lg py-4 px-6 h-12 overflow-hidden text-blue-300 text-ellipsis whitespace-nowrap rounded bg-gray-800 hover:text-gray-900 hover:bg-gray-400 mt-2 p-2 transition duration-300 ease-in-out' >
               {name}
               <a target='_blank' href={url} rel='noreferrer noopener' className=''><PencilIcon className='ml-4 w-8 h-8 p-1 border-gray-300 border-2 rounded-md hover:bg-slate-50' /></a>
               <a target='_blank' href={(url as string).replace('/edit', '')} rel='noreferrer noopener' className=''><EyeIcon className='ml-4 w-8 h-8 p-1 border-gray-300 border-2 rounded-md hover:bg-slate-50' /></a>
 
             </div>
+            <video className='w-full h-12' src={url} controls />
           </li>))}
         </ul>
       </div>
