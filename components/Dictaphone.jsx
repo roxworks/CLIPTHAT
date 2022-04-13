@@ -25,6 +25,7 @@ const Dictaphone = ({ setClipsMade, clipsMade, activationPhrase, setActivationPh
             icon: 'error',
             timer: 3000
           })
+          return;
         }
         console.log(res.url);
         setClipsMade(clipsMade.concat({url: res.url, name: new Date().toLocaleTimeString()}));
