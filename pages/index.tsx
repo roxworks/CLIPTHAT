@@ -9,6 +9,7 @@ import { useSession, signIn, signOut } from "next-auth/react"
 import { useEffect, useState } from 'react'
 import { PencilIcon } from '@heroicons/react/solid'
 import { EyeIcon } from '@heroicons/react/solid'
+import { DownloadIcon } from '@heroicons/react/solid'
 
 const Home: NextPage = () => {
   const [clipsMade, setClipsMade] = useState([]);
@@ -36,8 +37,9 @@ const Home: NextPage = () => {
           {clipsMade.slice().reverse().map(({ url, name, src }, index) => (<li key={url} className="relative h-42">
             <div className='flex justify-around items-center text-lg py-4 px-6 h-12 overflow-hidden text-blue-300 text-ellipsis whitespace-nowrap bg-gray-800 hover:text-gray-900 hover:bg-gray-400 mt-2 p-2 transition duration-300 ease-in-out' >
               {name}
-              <a target='_blank' href={url} rel='noreferrer noopener' className=''><PencilIcon className='ml-4 w-8 h-8 p-1 border-gray-300 border-2 rounded-md hover:bg-slate-50' /></a>
-              <a target='_blank' href={(url as string).replace('/edit', '')} rel='noreferrer noopener' className=''><EyeIcon className='ml-4 w-8 h-8 p-1 border-gray-300 border-2 rounded-md hover:bg-slate-50' /></a>
+              <a target='_blank' href={url} rel='noreferrer noopener' className=''><PencilIcon className='ml-2 w-8 h-8 p-1 border-gray-300 border-2 rounded-md hover:bg-slate-50' /></a>
+              <a target='_blank' href={(url as string).replace('/edit', '')} rel='noreferrer noopener' className=''><EyeIcon className='ml-2 w-8 h-8 p-1 border-gray-300 border-2 rounded-md hover:bg-slate-50' /></a>
+              <a target='_blank' href={src} rel='noreferrer noopener' className=''><DownloadIcon className='ml-2 w-8 h-8 p-1 border-gray-300 border-2 rounded-md hover:bg-slate-50' /></a>
             </div>
             <video className='w-full h-full' src={src} controls />
           </li>))}
