@@ -28,7 +28,7 @@ const Dictaphone = ({ setClipsMade, clipsMade, activationPhrase, setActivationPh
           return;
         }
         console.log(res.url);
-        setClipsMade(clipsMade.concat({url: res.url, name: new Date().toLocaleTimeString()}));
+        setClipsMade(clipsMade.concat({url: res.url, name: new Date().toLocaleTimeString(), src: res.src}));
         Swal.fire({
           title: 'Clip saved!',
           text: 'You can find it in your clips menu on the left',
