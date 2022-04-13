@@ -57,7 +57,7 @@ export default async function handler(
 
         console.log(`searching for clip at: https://api.twitch.tv/helix/clips?id=${clipId}`);
 
-        await sleep(15000);
+        await sleep(10000);
 
         let newClipDataBlob = await axios.get('https://api.twitch.tv/helix/clips?id=' + clipId, {
             headers: {
