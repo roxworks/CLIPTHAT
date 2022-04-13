@@ -9,6 +9,8 @@ type Data = {
     name: string
 }
 
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<Data>
@@ -54,6 +56,8 @@ export default async function handler(
         });
 
         console.log(`searching for clip at: https://api.twitch.tv/helix/clips?id=${clipId}`);
+
+        await sleep(15000);
 
         let newClipDataBlob = await axios.get('https://api.twitch.tv/helix/clips?id=' + clipId, {
             headers: {
