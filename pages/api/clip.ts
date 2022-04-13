@@ -52,7 +52,17 @@ export default async function handler(
             }
         });
 
-        res.status(200).json({ name: 'clip response', url: clipURL } as Data);
+        let newClipDataBlob = await axios.get('https://api.twitch.tv/helix/clips?id=' + id, {
+            headers: {
+                Authorization: 'Bearer ' + token,
+                'Client-ID': process.env.TWITCH_CLIENT_ID as string
+            }
+        });
+        let newClipData = newClipDataBlob?.data?.data?.[0];
+        let thumbnailUrl = newClipData?.thumbnail_url;
+        let downloadUrl = thumbnailUrl.split('-preview-')[0] + '.mp4';
+
+        res.status(200).json({ name: 'clip response', url: clipURL, src: downloadUrl } as Data);
     } catch (e: any) {
         console.log('Error: ', e);
         console.log('Error message: ', e?.response?.data?.message);
