@@ -18,6 +18,14 @@ const Dictaphone = ({ setClipsMade, clipsMade, activationPhrase, setActivationPh
     if (transcript.toLowerCase().includes(activationPhrase.toLowerCase())) {
       resetTranscript();
       fetch('/api/clip?').then(res => res.json()).then(res => {
+        if(!(res.url)) {
+          Swal.fire({
+            title: 'Failed to make clip',
+            text: res.message || res.error,
+            icon: 'error',
+            timer: 3000
+          })
+        }
         console.log(res.url);
         setClipsMade(clipsMade.concat({url: res.url, name: new Date().toLocaleTimeString()}));
         Swal.fire({
@@ -25,7 +33,12 @@ const Dictaphone = ({ setClipsMade, clipsMade, activationPhrase, setActivationPh
           text: 'You can find it in your clips menu on the left',
           icon: 'success',
           timer: 3000
-        });
+        }).catch(e => Swal.fire({
+          title: 'Failed to make clip',
+          text: e?.message || e,
+          icon: 'error',
+          timer: 3000
+        }));
       });
     }
   }, [transcript])

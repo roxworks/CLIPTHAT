@@ -15,41 +15,46 @@ export default async function handler(
 ) {
     const session = await getSession({ req })
     if(!session) {
-        res.status(401).json({ name: 'error', error: 'Unauthorized' } as Data);
+        res.status(401).json({ name: 'error', error: 'Unauthorized', message: 'You must be logged in to twitch to create a clip' } as Data);
         return;
     }
-    console.log('Attempting clip');
-    const channelName = session?.user?.name;
-    console.log(`access token ${session.accessToken ? 'found' : 'not found'}`);
-    let token = session.accessToken || (process.env.TWITCH_OAUTH_TOKEN as string);
-    // get broadcaster id
-    let idBlob = await axios.get(`https://api.twitch.tv/helix/users?login=${channelName}`, {
-        headers: {
-            'Authorization': 'Bearer ' + token,
-            'Client-ID': process.env.TWITCH_CLIENT_ID as string
-        }
-    });
-    let id = idBlob?.data?.data[0]?.id;
-    console.log('ID: ' + id);
+    try {
+        console.log('Attempting clip');
+        const channelName = session?.user?.name;
+        console.log(`access token ${session.accessToken ? 'found' : 'not found'}`);
+        let token = session.accessToken || (process.env.TWITCH_OAUTH_TOKEN as string);
+        // get broadcaster id
+        let idBlob = await axios.get(`https://api.twitch.tv/helix/users?login=${channelName}`, {
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Client-ID': process.env.TWITCH_CLIENT_ID as string
+            }
+        });
+        let id = idBlob?.data?.data[0]?.id;
+        console.log('ID: ' + id);
 
-    //post to clip endpoint with oauth token from .env (POST https://api.twitch.tv/helix/clips)
-    let clipBlob = await axios.post(`https://api.twitch.tv/helix/clips?broadcaster_id=${id}`, {}, {
-        headers: {
-            Authorization: 'Bearer ' + token,
-            'Client-ID': process.env.TWITCH_CLIENT_ID as string
-        }
-    });
-    
-    console.log('Clip response: ', clipBlob?.data);
-    let clipURL = clipBlob?.data?.data?.[0]?.edit_url;
-    console.log('Clip URL: ' + clipURL);
-    ampClient.logEvent({
-        'event_type': 'clipthat_clip_made', 
-        user_id: channelName || 'No Channel Found',
-        event_properties: {
-            url: clipURL
-        }
-    });
+        //post to clip endpoint with oauth token from .env (POST https://api.twitch.tv/helix/clips)
+        let clipBlob = await axios.post(`https://api.twitch.tv/helix/clips?broadcaster_id=${id}`, {}, {
+            headers: {
+                Authorization: 'Bearer ' + token,
+                'Client-ID': process.env.TWITCH_CLIENT_ID as string
+            }
+        });
+        
+        console.log('Clip response: ', clipBlob?.data);
+        let clipURL = clipBlob?.data?.data?.[0]?.edit_url;
+        console.log('Clip URL: ' + clipURL);
+        ampClient.logEvent({
+            'event_type': 'clipthat_clip_made', 
+            user_id: channelName || 'No Channel Found',
+            event_properties: {
+                url: clipURL
+            }
+        });
 
-    res.status(200).json({ name: 'clip response', url: clipURL } as Data);
+        res.status(200).json({ name: 'clip response', url: clipURL } as Data);
+    } catch (e: any) {
+        console.log('Error: ', e);
+        res.status(500).json({ name: 'error', error: 'Internal Server Error', message: e.message || 'Failed to make a clip' } as Data);
+    }
 }
