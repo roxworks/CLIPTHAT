@@ -40,7 +40,7 @@ const Dictaphone = ({ setClipsMade, clipsMade, activationPhrase, setActivationPh
           return;
         }
         console.log(res.url);
-        let newClipsMade = clipsMade.concat({url: res.url, name: new Date().toLocaleTimeString(), src: res.src});
+        let newClipsMade = clipsMade.concat({url: res.url, name: new Date().toLocaleString(), src: res.src});
         setClipsMade(newClipsMade);
         localStorage.setItem('clipsMade', JSON.stringify(newClipsMade));
 
