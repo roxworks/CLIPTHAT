@@ -43,6 +43,7 @@ export default async function handler(
         
         console.log('Clip response: ', clipBlob?.data);
         let clipURL = clipBlob?.data?.data?.[0]?.edit_url;
+        let clipId = clipBlob?.data?.data?.[0]?.id;
         console.log('Clip URL: ' + clipURL);
         ampClient.logEvent({
             'event_type': 'clipthat_clip_made', 
@@ -52,7 +53,7 @@ export default async function handler(
             }
         });
 
-        let newClipDataBlob = await axios.get('https://api.twitch.tv/helix/clips?id=' + id, {
+        let newClipDataBlob = await axios.get('https://api.twitch.tv/helix/clips?id=' + clipId, {
             headers: {
                 Authorization: 'Bearer ' + token,
                 'Client-ID': process.env.TWITCH_CLIENT_ID as string
