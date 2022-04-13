@@ -53,6 +53,8 @@ export default async function handler(
             }
         });
 
+        console.log(`searching for clip at: https://api.twitch.tv/helix/clips?id=${clipId}`);
+
         let newClipDataBlob = await axios.get('https://api.twitch.tv/helix/clips?id=' + clipId, {
             headers: {
                 Authorization: 'Bearer ' + token,
