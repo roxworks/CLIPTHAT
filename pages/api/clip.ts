@@ -55,6 +55,7 @@ export default async function handler(
         res.status(200).json({ name: 'clip response', url: clipURL } as Data);
     } catch (e: any) {
         console.log('Error: ', e);
-        res.status(500).json({ name: 'error', error: 'Internal Server Error', message: e.message || 'Failed to make a clip' } as Data);
+        console.log('Error message: ', e?.response?.data?.message);
+        res.status(500).json({ name: 'error', error: 'Internal Server Error', message: e?.response?.data?.message || e?.message || 'Failed to make a clip' } as Data);
     }
 }
