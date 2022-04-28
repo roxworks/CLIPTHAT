@@ -9,7 +9,7 @@ const refreshTwitchAccessToken = async (accessToken, refreshToken) => {
         grant_type: 'refresh_token',
         refresh_token: refreshToken
     });
-    console.log(`refreshTokenResponse: ${JSON.stringify(response.data)}`);
+    console.log(`Got another access token`);
     return response.data;
 }
 
