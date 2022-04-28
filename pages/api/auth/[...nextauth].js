@@ -35,9 +35,9 @@ export default NextAuth({
         async jwt({ token, account }) {
             // Persist the OAuth access_token to the token right after signin
             if (account) {
-                token.accessToken = account.access_token
-                token.refreshToken = account.refresh_token
                 let newToken = await refreshTwitchAccessToken(account.access_token, account.refresh_token);
+                token.accessToken = newToken.access_token
+                token.refreshToken = newToken.refresh_token
             }
             return token
         },
