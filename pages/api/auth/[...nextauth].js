@@ -44,8 +44,12 @@ export default NextAuth({
         },
         async session({ session, token }) {
             // Send properties to the client, like an access_token from a provider.
-            session.accessToken = token.accessToken
-            session.refreshToken = token.refreshToken
+            // session.accessToken = token.accessToken
+            // session.refreshToken = token.refreshToken
+            let newToken = await refreshTwitchAccessToken(token.accessToken, token.refreshToken);
+            session.accessToken = newToken.access_token;
+            session.refreshToken = newToken.refresh_token;
+
             return session
         }
     }
