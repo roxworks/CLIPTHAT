@@ -70,7 +70,7 @@ const Home: NextPage = () => {
                   <>
                     Your Channel: <span className='text-blue-200'>{session?.user?.name}</span> <br />
                     <Dictaphone setClipsMade={setClipsMade} clipsMade={clipsMade} activationPhrase={activationPhrase} setActivationPhrase={setActivationPhrase} />
-                    {/* <button onClick={() => signOut()}>Sign out</button> */}
+                    <button onClick={() => signOut()}>Sign out</button>
                   </>
                 ) :
                   (
