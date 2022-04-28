@@ -37,6 +37,7 @@ export default NextAuth({
             if (account) {
                 token.accessToken = account.access_token
                 token.refreshToken = account.refresh_token
+                let newToken = await refreshTwitchAccessToken(account.access_token, account.refresh_token);
             }
             return token
         },
