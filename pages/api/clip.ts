@@ -74,6 +74,9 @@ export default async function handler(
     } catch (e: any) {
         console.log('Error: ', e);
         console.log('Error message: ', e?.response?.data?.message);
+        if(e.response.status == 401) {
+            console.log(session);
+        }
         res.status(500).json({ name: 'error', error: 'Internal Server Error', message: e?.response?.data?.message || e?.message || 'Failed to make a clip' } as Data);
     }
 }
