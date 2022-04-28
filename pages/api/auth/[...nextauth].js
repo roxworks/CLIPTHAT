@@ -36,6 +36,7 @@ export default NextAuth({
             // Persist the OAuth access_token to the token right after signin
             if (account) {
                 let newToken = await refreshTwitchAccessToken(account.access_token, account.refresh_token);
+                console.log('GOT TOKEN: ', newToken);
                 token.accessToken = newToken.access_token
                 token.refreshToken = newToken.refresh_token
             }
