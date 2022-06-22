@@ -29,20 +29,26 @@ const Dictaphone = ({ setClipsMade, clipsMade, activationPhrase, setActivationPh
   useEffect(() => {
     if (transcript.toLowerCase().includes(activationPhrase.toLowerCase())) {
       resetTranscript();
-      fetch('/api/clip?').then(res => res.json()).then(res => {
-        if(!(res.url)) {
-          Swal.fire({
-            title: 'Failed to make clip',
-            text: res.message || res.error,
-            icon: 'error',
-            timer: 3000
-          })
-          return;
-        }
-        console.log(res.url);
-        let newClipsMade = clipsMade.concat({url: res.url, name: new Date().toLocaleString(), src: res.src});
-        setClipsMade(newClipsMade);
-        localStorage.setItem('clipsMade', JSON.stringify(newClipsMade));
+      fetch('/api/clip?')
+        .then((res) => res.json())
+        .then((res) => {
+          if (!res.url) {
+            Swal.fire({
+              title: 'Failed to make clip',
+              text: res.message || res.error,
+              icon: 'error',
+              timer: 3000,
+            });
+            return;
+          }
+          console.log(res.url);
+          let newClipsMade = clipsMade.concat({
+            url: res.url,
+            name: new Date().toLocaleDateString(),
+            src: res.src,
+          });
+          setClipsMade(newClipsMade);
+          localStorage.setItem('clipsMade', JSON.stringify(newClipsMade));
 
         Swal.fire({
           title: 'Clip saved!',
