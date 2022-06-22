@@ -21,7 +21,6 @@ const Home: NextPage = () => {
   const getClipbotUrl = (url: string) => {
     let id = url.replace('https://clips.twitch.tv/', '');
     id = id.replace('/edit', '');
-    console.log('CLIPIDDELV:', id);
     const clipbotUrl = `https://app.clipbot.tv/clips/${id}?src=CLIPTHAT`;
 
     return clipbotUrl;
