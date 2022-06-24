@@ -8,12 +8,18 @@ import { FaYoutube, FaTiktok } from 'react-icons/fa';
 const Dictaphone = dynamic(() => import('../components/Dictaphone'), { ssr: false });
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-import { PencilIcon } from '@heroicons/react/solid';
+import { PencilIcon, TrashIcon } from '@heroicons/react/solid';
 import { EyeIcon } from '@heroicons/react/solid';
 import { DownloadIcon } from '@heroicons/react/solid';
 
+type TClipsMade = {
+  url: string;
+  name: string;
+  src: string;
+};
+
 const Home: NextPage = () => {
-  const [clipsMade, setClipsMade] = useState([]);
+  const [clipsMade, setClipsMade] = useState<TClipsMade[]>([]);
   const [activationPhrase, setActivationPhrase] = useState('Clip that');
 
   const { data: session } = useSession();
@@ -25,6 +31,17 @@ const Home: NextPage = () => {
     const clipbotUrl = `https://app.clipbot.tv/clips/${id}?src=CLIPTHAT`;
 
     return clipbotUrl;
+  };
+
+  const handleRemoveClips = () => {
+    setClipsMade([]);
+    localStorage.setItem('clipsMade', JSON.stringify([]));
+  };
+
+  const handleDeleteClip = (url: string) => {
+    const updateClips = clipsMade.filter((clip: TClipsMade) => clip.url !== url);
+    setClipsMade(updateClips);
+    localStorage.setItem('clipsMade', JSON.stringify(updateClips));
   };
 
   return (
@@ -59,6 +76,17 @@ const Home: NextPage = () => {
               </div>
             </a>
           </li>
+          {clipsMade.length > 1 && (
+            <li className="relative">
+              <button
+                onClick={handleRemoveClips}
+                className="flex w-full justify-center gap-4 items-center text-lg  overflow-hidden text-blue-300 text-ellipsis whitespace-nowrap bg-gray-800 hover:text-gray-900 hover:bg-gray-400 mt-2 p-2 transition duration-300 ease-in-out"
+              >
+                <TrashIcon className="ml-2 w-8 h-8 p-1 " />
+                <span>Clear Clips</span>
+              </button>
+            </li>
+          )}
           {clipsMade
             .slice()
             .reverse()
@@ -96,6 +124,9 @@ const Home: NextPage = () => {
                   >
                     <FaTiktok className="ml-2 w-8 h-8 p-1 border-gray-300 border-2 rounded-md hover:bg-slate-50" />
                   </a>
+                  <button onClick={() => handleDeleteClip(url)}>
+                    <TrashIcon className="ml-2 w-8 h-8 p-1 border-red-500 border-2 rounded-md hover:bg-slate-50" />
+                  </button>
                 </div>
                 <video className="w-full h-full" src={src} controls />
               </li>
